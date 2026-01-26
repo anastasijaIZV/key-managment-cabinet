@@ -46,25 +46,25 @@ In many schools, key management is still handled manually, often relying on a lo
 ## Work plan
 
 ### Deliverables:
-**Week 1** &rarr; finalised written concept + system architecture
+- [ ] **Week 1** &rarr; finalised written concept + system architecture
 
-**Week 2** &rarr;  printable cabinet piece models
+- [ ] **Week 2** &rarr;  printable cabinet piece models
 
-**Week 3** &rarr;  printed cabinet + ESC32 development environment
+- [ ] **Week 3** &rarr;  printed cabinet + ESC32 development environment
 
-**Week 4** &rarr;  serial shows correct UID
+- [ ] **Week 4** &rarr;  serial shows correct UID
 
-**Week 5** &rarr;  visual feedback for system state
+- [ ] **Week 5** &rarr;  visual feedback for system state
 
-**Week 6** &rarr; cabinet can lock/unlock
+- [ ] **Week 6** &rarr; cabinet can lock/unlock
 
-**Week 7** &rarr;  combined system parts (taps card - cabinet opens - relocks automanically) 
+- [ ] **Week 7** &rarr;  combined system parts (taps card - cabinet opens - relocks automanically) 
 
-**Week 8** &rarr;  assembled cabinet prototype
+- [ ] **Week 8** &rarr;  assembled cabinet prototype
 
-**Week 9** &rarr;  live event log visible in browser
+- [ ] **Week 9** &rarr;  live event log visible in browser
 
-**Week 10** &rarr;  demo ready and finished documentation
+- [ ] **Week 10** &rarr;  demo ready and finished documentation
 
 
 | Week | Tag (S-school, H-home)     | Todo task                                                                 | Status |
