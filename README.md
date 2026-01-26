@@ -1,5 +1,7 @@
 # Key managment cabinet
 
+---
+
 ## Idea description
 
 The idea of this project is to develop a **smart key management system for a school that automates the process of issuing and returning physical keys**. The system is based on a closed key cabinet equipped with electronic access control.
