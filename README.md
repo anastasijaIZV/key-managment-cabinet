@@ -39,33 +39,57 @@ In many schools, key management is still handled manually, often relying on a lo
 - Arduino IDE
 - Google Apps Script
 - HTTP communication over Wi-Fi
-- 3D editing software
+- Tinkercad
 
 --- 
 
-## 10-week plan (1.5h)
+## Work plan
 
-| Week | Tag       | Todo task                                                                 | Status |
+### Deliverables:
+**Week 1** &rarr; finalised written concept + system architecture
+
+**Week 2** &rarr;  printable cabinet piece models
+
+**Week 3** &rarr;  printed cabinet + ESC32 development environment
+
+**Week 4** &rarr;  serial shows correct UID
+
+**Week 5** &rarr;  visual feedback for system state
+
+**Week 6** &rarr; cabinet can lock/unlock
+
+**Week 7** &rarr;  combined system parts (taps card - cabinet opens - relocks automanically) 
+
+**Week 8** &rarr;  assembled cabinet prototype
+
+**Week 9** &rarr;  live event log visible in browser
+
+**Week 10** &rarr;  demo ready and finished documentation
+
+
+| Week | Tag (S-school, H-home)     | Todo task                                                                 | Status |
 |-----|-----------|---------------------------------------------------------------------------|--------|
-| -   | schema    | Create 3D model for cabinet              | ㄟ( ▔, ▔ )ㄏ    |
-| 1   | schema    | Draw system diagram (hardware + data flow)              | ✍(◔◡◔)    |
-| 1   | hardware  | Install ESP32 drivers and **confirm board power via USB**                 | ┗( T﹏T )┛     |
-| 1   | software  | Install Arduino IDE ESP32 support     | (ﾉ◕ヮ◕)ﾉ*:･ﾟ✧      |
-| 2   | hardware  | Wire PN532 to ESP32 (SPI mode) and double-check pin connections            | (_　_)。゜zｚＺ     |
-| 3   | software  | Run PN532 example and read UID from a card/tag via Serial Monitor          | (_　_)。゜zｚＺ     |
-| 4   | hardware  | Wire red and green LEDs to ESP32 GPIOs and test basic on/off control       | (_　_)。゜zｚＺ     |
-| 4   | software  | Write LED status functions (locked, unlocked, error)                      | (_　_)。゜zｚＺ     |
-| 5   | hardware  | Wire lock to 12V PSU through IRF520 MOSFET and add flyback diode           | (_　_)。゜zｚＺ     |
-| 5   | hardware  | Test lock unlock/lock manually using ESP32 GPIO                            | (_　_)。゜zｚＺ     |
-| 6   | hardware  | Connect lock feedback signal to ESP32 and verify logic (locked/unlocked)  | (_　_)。゜zｚＺ     |
-| 6   | software  | Read feedback pin in code and print lock state to Serial                   | (_　_)。゜zｚＺ     |
-| 7   | software  | Implement basic access logic (card read → unlock → delay → relock)        | (_　_)。゜zｚＺ     |
-| 7   | software  | Combine NFC + LEDs + lock into one sketch                          | (_　_)。゜zｚＺ     |
-| 8   | software  | Create Google Sheets + Apps Script endpoint                                | (_　_)。゜zｚＺ     |
-| 8   | software  | Send test log event from ESP32 to Google Sheets                            | (_　_)。゜zｚＺ     |
-| 9   | software  | Log real events (AUTH_OK, AUTH_FAIL, LOCK, UNLOCK) to Sheets               | (_　_)。゜zｚＺ     |
-| 9   | schema    | Define event naming and data structure (UIDs, timestamps, device ID)      | (_　_)。゜zｚＺ     |
-| 10  | hardware  | Mount components inside cabinet            | (_　_)。゜zｚＺ     |
+| 1   | S    | Finalize system concept + requirements              | ✍(◔◡◔)    |
+| 1   | H    | Draw full system diagram            | (_　_)。゜zｚＺ    |
+| 2   | S  | Design cabinet layout     | (_　_)。゜zｚＺ      |
+| 2   | H  | Create 3D model of cabinet           | (_　_)。゜zｚＺ     |
+| 3   | S  | Print the parts for the cabinet          | (_　_)。゜zｚＺ     |
+| 3   | S  | Install ESP32 drivers and Arduino IDE ESP32 support (test board power)      | (_　_)。゜zｚＺ     |
+| 4   | S  | Wire PN532 and ESP32 and verify connection                      | (_　_)。゜zｚＺ     |
+| 4   | H  | Run PN532 examples, read UID from school card + test tag           | (_　_)。゜zｚＺ     |
+| 5   | S  | Wire red/green LEDs to ESP32 GPIOs                            | (_　_)。゜zｚＺ     |
+| 5   | H  | Create LED states  | (_　_)。゜zｚＺ     |
+| 6   | S  | Wire lock to 12V PSU via IRF520 + flyback diode                   | (_　_)。゜zｚＺ     |
+| 6   | H  | Test lock control via GPIO        | (_　_)。゜zｚＺ     |
+| 7   | S  | Implement access flow  (card - unlock - delay - relock)                        | (_　_)。゜zｚＺ     |
+| 7   | H  | Combine NFC + LEDs + lock into one sketch                                | (_　_)。゜zｚＺ     |
+| 8   | S  | Mount electronics inside printed cabinet                            | (_　_)。゜zｚＺ     |
+| 8   | H  | Add door/lock feedback signal and read it in code               | (_　_)。゜zｚＺ     |
+| 9   | S    | Define event structure      | (_　_)。゜zｚＺ     |
+| 9  | H  | Create Google Sheets + Apps Script endpoint            | (_　_)。゜zｚＺ     |
+| 9  | H  | Send test logs from ESP32            | (_　_)。゜zｚＺ     |
+| 10  | S  | Full system testing            | (_　_)。゜zｚＺ     |
+| 10  | S  | Finish documentation             | (_　_)。゜zｚＺ     |
 
 ---
 
