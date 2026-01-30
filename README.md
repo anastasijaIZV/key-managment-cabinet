@@ -70,7 +70,7 @@ In many schools, key management is still handled manually, often relying on a lo
 
 
 | Week | Tag (S-school, H-home)     | Todo task                                                                 | Status |
-|-----|-----------|---------------------------------------------------------------------------|--------|
+|-----|-----------|--------------------------------------------------------------------|----------------|
 | 1   | S    | Finalize system concept + requirements              | ✍(◔◡◔)    |
 | 1   | H    | Draw full system diagram            | (_　_)。zＺ    |
 | 2   | S  | Design cabinet layout     | (_　_)。zＺ      |
