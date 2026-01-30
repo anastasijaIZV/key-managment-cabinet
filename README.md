@@ -72,31 +72,31 @@ In many schools, key management is still handled manually, often relying on a lo
 | Week | Tag (S-school, H-home)     | Todo task                                                                 | Status |
 |-----|-----------|---------------------------------------------------------------------------|--------|
 | 1   | S    | Finalize system concept + requirements              | ✍(◔◡◔)    |
-| 1   | H    | Draw full system diagram            | (_　_)。゜zｚＺ    |
-| 2   | S  | Design cabinet layout     | (_　_)。゜zｚＺ      |
-| 2   | H  | Create 3D model of cabinet           | (_　_)。゜zｚＺ     |
-| 3   | S  | Print the parts for the cabinet          | (_　_)。゜zｚＺ     |
-| 3   | S  | Install ESP32 drivers and Arduino IDE ESP32 support (test board power)      | (_　_)。゜zｚＺ     |
-| 4   | S  | Wire PN532 and ESP32 and verify connection                      | (_　_)。゜zｚＺ     |
-| 4   | H  | Run PN532 examples, read UID from school card + test tag           | (_　_)。゜zｚＺ     |
-| 5   | S  | Wire red/green LEDs to ESP32 GPIOs                            | (_　_)。゜zｚＺ     |
-| 5   | H  | Create LED states  | (_　_)。゜zｚＺ     |
-| 6   | S  | Wire lock to 12V PSU via IRF520 + flyback diode                   | (_　_)。゜zｚＺ     |
-| 6   | H  | Test lock control via GPIO        | (_　_)。゜zｚＺ     |
-| 7   | S  | Implement access flow  (card - unlock - delay - relock)                        | (_　_)。゜zｚＺ     |
-| 7   | H  | Combine NFC + LEDs + lock into one sketch                                | (_　_)。゜zｚＺ     |
-| 8   | S  | Mount electronics inside printed cabinet                            | (_　_)。゜zｚＺ     |
-| 8   | H  | Add door/lock feedback signal and read it in code               | (_　_)。゜zｚＺ     |
-| 9   | S    | Define event structure      | (_　_)。゜zｚＺ     |
-| 9  | H  | Create Google Sheets + Apps Script endpoint            | (_　_)。゜zｚＺ     |
-| 9  | H  | Send test logs from ESP32            | (_　_)。゜zｚＺ     |
-| 10  | S  | Full system testing            | (_　_)。゜zｚＺ     |
-| 10  | S  | Finish documentation             | (_　_)。゜zｚＺ     |
+| 1   | H    | Draw full system diagram            | (_　_)。zＺ    |
+| 2   | S  | Design cabinet layout     | (_　_)。zＺ      |
+| 2   | H  | Create 3D model of cabinet           | (_　_)。zＺ     |
+| 3   | S  | Print the parts for the cabinet          | (_　_)。zＺ     |
+| 3   | S  | Install ESP32 drivers and Arduino IDE ESP32 support (test board power)      | (_　_)。zＺ     |
+| 4   | S  | Wire PN532 and ESP32 and verify connection                      | (_　_)。zＺ     |
+| 4   | H  | Run PN532 examples, read UID from school card + test tag           | (_　_)。zＺ     |
+| 5   | S  | Wire red/green LEDs to ESP32 GPIOs                            | (_　_)。zＺ     |
+| 5   | H  | Create LED states  | (_　_)。zＺ     |
+| 6   | S  | Wire lock to 12V PSU via IRF520 + flyback diode                   | (_　_)。zＺ     |
+| 6   | H  | Test lock control via GPIO        | (_　_)。zＺ     |
+| 7   | S  | Implement access flow  (card - unlock - delay - relock)                        | (_　_)。zＺ     |
+| 7   | H  | Combine NFC + LEDs + lock into one sketch                                | (_　_)。zＺ     |
+| 8   | S  | Mount electronics inside printed cabinet                            | (_　_)。zＺ     |
+| 8   | H  | Add door/lock feedback signal and read it in code               | (_　_)。zＺ     |
+| 9   | S    | Define event structure      | (_　_)。zＺ     |
+| 9  | H  | Create Google Sheets + Apps Script endpoint            | (_　_)。zＺ     |
+| 9  | H  | Send test logs from ESP32            |(_　_)。zＺ     |
+| 10  | S  | Full system testing            |(_　_)。zＺ     |
+| 10  | S  | Finish documentation             | (_　_)。zＺ     |
 
 ---
 
 > ### Status codes: 
-> - NOT STARTED (_　_)。゜zｚＺ
+> - NOT STARTED (_　_)。zＺ
 > - IN PROGRESS ✍(◔◡◔)
 > - IN SLOW PROGRESS ┗( T﹏T )┛
 > - NOT WORKING (ㆆ_ㆆ)
