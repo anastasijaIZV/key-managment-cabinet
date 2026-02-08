@@ -76,7 +76,7 @@ In many schools, key management is still handled manually, often relying on a lo
 | 2   | S  | Design cabinet layout     | (_　_)。zＺ      |
 | 2   | H  | Create 3D model of cabinet           | (_　_)。zＺ     |
 | 3   | S  | Print the parts for the cabinet          | (_　_)。zＺ     |
-| 3   | S  | Install ESP32 drivers and Arduino IDE ESP32 support (test board power)      | (_　_)。zＺ     |
+| 3   | S  | Install ESP32 drivers and Arduino IDE ESP32 support (test board power)      | (ﾉ◕ヮ◕)ﾉ*:･ﾟ✧  |
 | 4   | S  | Wire PN532 and ESP32 and verify connection                      | (_　_)。zＺ     |
 | 4   | H  | Run PN532 examples, read UID from school card + test tag           | (_　_)。zＺ     |
 | 5   | S  | Wire red/green LEDs to ESP32 GPIOs                            | (_　_)。zＺ     |
@@ -88,7 +88,7 @@ In many schools, key management is still handled manually, often relying on a lo
 | 8   | S  | Mount electronics inside printed cabinet                            | (_　_)。zＺ     |
 | 8   | H  | Add door/lock feedback signal and read it in code               | (_　_)。zＺ     |
 | 9   | S    | Define event structure      | (_　_)。zＺ     |
-| 9  | H  | Create Google Sheets + Apps Script endpoint            | (_　_)。zＺ     |
+| 9  | H  | Create Google Sheets + Apps Script endpoint            | (ﾉ◕ヮ◕)ﾉ*:･ﾟ✧     |
 | 9  | H  | Send test logs from ESP32            |(_　_)。zＺ     |
 | 10  | S  | Full system testing            |(_　_)。zＺ     |
 | 10  | S  | Finish documentation             | (_　_)。zＺ     |
