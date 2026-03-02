@@ -48,7 +48,7 @@ In many schools, key management is still handled manually, often relying on a lo
 ## Work plan
 
 ### Deliverables:
-- [ ] **Week 1** &rarr; finalised written concept + system architecture
+- [x] **Week 1** &rarr; finalised written concept + system architecture
 
 - [ ] **Week 2** &rarr;  printable cabinet piece models
 
