@@ -79,7 +79,7 @@ In many schools, key management is still handled manually, often relying on a lo
 | 3   | S  | Install ESP32 drivers and Arduino IDE ESP32 support (test board power)      | (ﾉ◕ヮ◕)ﾉ*:･ﾟ✧  |
 | 4   | S  | Wire PN532 and ESP32 and verify connection                      | (ﾉ◕ヮ◕)ﾉ*:･ﾟ✧     |
 | 4   | H  | Run PN532 examples, read UID from school card + test tag           | (ﾉ◕ヮ◕)ﾉ*:･ﾟ✧     |
-| 5   | S  | Wire red/green LEDs to ESP32 GPIOs                            | (_　_)。zＺ     |
+| 5   | S  | Wire red/green LEDs to ESP32 GPIOs                            | (ﾉ◕ヮ◕)ﾉ*:･ﾟ✧     |
 | 5   | H  | Create LED states  | (_　_)。zＺ     |
 | 6   | S  | Wire lock to 12V PSU via IRF520 + flyback diode                   | (_　_)。zＺ     |
 | 6   | H  | Test lock control via GPIO        | (_　_)。zＺ     |
