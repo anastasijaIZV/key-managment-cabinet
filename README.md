@@ -54,9 +54,9 @@ In many schools, key management is still handled manually, often relying on a lo
 
 - [ ] **Week 3** &rarr;  printed cabinet + ESC32 development environment
 
-- [ ] **Week 4** &rarr;  serial shows correct UID
+- [x] **Week 4** &rarr;  serial shows correct UID
 
-- [ ] **Week 5** &rarr;  visual feedback for system state
+- [x] **Week 5** &rarr;  visual feedback for system state
 
 - [ ] **Week 6** &rarr; cabinet can lock/unlock
 
@@ -64,7 +64,7 @@ In many schools, key management is still handled manually, often relying on a lo
 
 - [ ] **Week 8** &rarr;  assembled cabinet prototype
 
-- [ ] **Week 9** &rarr;  live event log visible in browser
+- [x] **Week 9** &rarr;  live event log visible in browser
 
 - [ ] **Week 10** &rarr;  demo ready and finished documentation
 
@@ -73,17 +73,17 @@ In many schools, key management is still handled manually, often relying on a lo
 |-----|-----------|--------------------------------------------------------------------|----------------|
 | 1   | S    | System concept + requirements              | (ﾉ◕ヮ◕)ﾉ*:･ﾟ✧    |
 | 1   | H    | Draw full system diagram            | (ﾉ◕ヮ◕)ﾉ*:･ﾟ✧    |
-| 2   | S  | Design cabinet layout     | (_　_)。zＺ      |
-| 2   | H  | Create 3D model of cabinet           | (_　_)。zＺ     |
+| 2   | S  | Design cabinet layout     | ✍(◔◡◔)      |
+| 2   | H  | Create 3D model of cabinet           | ┗( T﹏T )┛     |
 | 3   | S  | Print the parts for the cabinet          | (_　_)。zＺ     |
 | 3   | S  | Install ESP32 drivers and Arduino IDE ESP32 support (test board power)      | (ﾉ◕ヮ◕)ﾉ*:･ﾟ✧  |
-| 4   | S  | Wire PN532 and ESP32 and verify connection                      | (_　_)。zＺ     |
-| 4   | H  | Run PN532 examples, read UID from school card + test tag           | (_　_)。zＺ     |
-| 5   | S  | Wire red/green LEDs to ESP32 GPIOs                            | (_　_)。zＺ     |
+| 4   | S  | Wire PN532 and ESP32 and verify connection                      | (ﾉ◕ヮ◕)ﾉ*:･ﾟ✧     |
+| 4   | H  | Run PN532 examples, read UID from school card + test tag           | (ﾉ◕ヮ◕)ﾉ*:･ﾟ✧     |
+| 5   | S  | Wire red/green LEDs to ESP32 GPIOs                            | (ﾉ◕ヮ◕)ﾉ*:･ﾟ✧     |
 | 5   | H  | Create LED states  | (_　_)。zＺ     |
 | 6   | S  | Wire lock to 12V PSU via IRF520 + flyback diode                   | (_　_)。zＺ     |
 | 6   | H  | Test lock control via GPIO        | (_　_)。zＺ     |
-| 7   | S  | Implement access flow  (card - unlock - delay - relock)                        | (_　_)。zＺ     |
+| 7   | S  | Implement access flow  (card - unlock - delay - relock)                        | (ﾉ◕ヮ◕)ﾉ*:･ﾟ✧     |
 | 7   | H  | Combine NFC + LEDs + lock into one sketch                                | (_　_)。zＺ     |
 | 8   | S  | Mount electronics inside printed cabinet                            | (_　_)。zＺ     |
 | 8   | H  | Add door/lock feedback signal and read it in code               | (_　_)。zＺ     |
