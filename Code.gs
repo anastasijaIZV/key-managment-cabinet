@@ -1,91 +1,127 @@
 function doGet(e) {
   var ss = SpreadsheetApp.getActiveSpreadsheet();
-
   var usersSheet = ss.getSheetByName("Users");
   var keysSheet = ss.getSheetByName("Keys");
   var logsSheet = ss.getSheetByName("Logs");
 
-  if (!usersSheet || !keysSheet || !logsSheet) {
-    return ContentService.createTextOutput("ERROR: Missing required sheet");
+  var mode = (e.parameter.mode || "").toString().trim().toLowerCase();
+
+  if (mode === "classify") {
+    var uid = normalizeUid(e.parameter.uid);
+    return ContentService.createTextOutput(classifyUid(usersSheet, keysSheet, uid));
   }
 
-  var action = (e.parameter.action || "").toUpperCase().trim();
-  var userUID = normalizeUID(e.parameter.userUID || "");
-  var keyUID = normalizeUID(e.parameter.keyUID || "");
-
-  if (!action || !userUID || !keyUID) {
-    return ContentService.createTextOutput("ERROR: Missing action, userUID, or keyUID");
+  if (mode === "process") {
+    var action = (e.parameter.action || "").toString().trim().toUpperCase();
+    var userUid = normalizeUid(e.parameter.useruid);
+    var keyUid = normalizeUid(e.parameter.keyuid);
+    return ContentService.createTextOutput(processAction(usersSheet, keysSheet, logsSheet, action, userUid, keyUid));
   }
 
-  if (action !== "TAKE" && action !== "RETURN") {
-    return ContentService.createTextOutput("ERROR: Invalid action");
+  return ContentService.createTextOutput("INVALID_MODE");
+}
+
+function normalizeUid(value) {
+  return (value || "").toString().trim().toUpperCase().replace(/\s+/g, "");
+}
+
+function classifyUid(usersSheet, keysSheet, uid) {
+  if (!uid) return "MISSING_UID";
+
+  var userResult = findUser(usersSheet, uid);
+  var keyResult = findKey(keysSheet, uid);
+
+  if (userResult.found && keyResult.found) {
+    return "DUPLICATE_UID";
   }
 
-  var user = findUser(usersSheet, userUID);
-  if (!user.found) {
-    logEvent(logsSheet, action, userUID, "", keyUID, "", "ERROR", "Unknown user");
-    return ContentService.createTextOutput("ERROR: Unknown user");
+  if (userResult.found) {
+    if (!userResult.active) return "USER_INACTIVE";
+    return "USER_FOUND|" + userResult.uid + "|" + userResult.name;
   }
 
-  if (!user.active) {
-    logEvent(logsSheet, action, userUID, user.name, keyUID, "", "ERROR", "Inactive user");
-    return ContentService.createTextOutput("ERROR: Inactive user");
+  if (keyResult.found) {
+    return "KEY_FOUND|" + keyResult.uid + "|" + keyResult.name + "|" + keyResult.status + "|" + keyResult.holderUid;
   }
 
-  var key = findKey(keysSheet, keyUID);
-  if (!key.found) {
-    logEvent(logsSheet, action, userUID, user.name, keyUID, "", "ERROR", "Unknown key");
-    return ContentService.createTextOutput("ERROR: Unknown key");
+  return "NOT_FOUND";
+}
+
+function processAction(usersSheet, keysSheet, logsSheet, action, userUid, keyUid) {
+  if (!action || !userUid || !keyUid) {
+    return "MISSING_PARAMS";
   }
+
+  var userResult = findUser(usersSheet, userUid);
+  if (!userResult.found) return "USER_NOT_FOUND";
+  if (!userResult.active) return "USER_INACTIVE";
+
+  var keyResult = findKey(keysSheet, keyUid);
+  if (!keyResult.found) return "KEY_NOT_FOUND";
 
   if (action === "TAKE") {
-    if (key.status === "OUT") {
-      logEvent(logsSheet, action, userUID, user.name, keyUID, key.name, "ERROR", "Key already OUT");
-      return ContentService.createTextOutput("ERROR: Key already OUT");
+    if (String(keyResult.status).toUpperCase() !== "IN") {
+      return "KEY_NOT_AVAILABLE";
     }
 
-    keysSheet.getRange(key.row, 3).setValue("OUT");      // Status
-    keysSheet.getRange(key.row, 4).setValue(userUID);    // HolderUID
+    keysSheet.getRange(keyResult.row, 3).setValue("OUT");
+    keysSheet.getRange(keyResult.row, 4).setValue(userResult.uid);
 
-    logEvent(logsSheet, action, userUID, user.name, keyUID, key.name, "OK", "");
-    return ContentService.createTextOutput("OK: TAKE logged");
-  }
+    logsSheet.appendRow([
+      new Date(),
+      "TAKE",
+      userResult.uid,
+      userResult.name,
+      keyResult.uid,
+      keyResult.name,
+      "OK"
+    ]);
+
+    return "OK|TAKE|" + userResult.name + "|" + keyResult.name;
+}
 
   if (action === "RETURN") {
-    if (key.status === "IN") {
-      logEvent(logsSheet, action, userUID, user.name, keyUID, key.name, "ERROR", "Key already IN");
-      return ContentService.createTextOutput("ERROR: Key already IN");
+    if (String(keyResult.status).toUpperCase() !== "OUT") {
+      return "KEY_ALREADY_IN";
     }
 
-    keysSheet.getRange(key.row, 3).setValue("IN");       // Status
-    keysSheet.getRange(key.row, 4).setValue("");         // HolderUID
+    keysSheet.getRange(keyResult.row, 3).setValue("IN");
+    keysSheet.getRange(keyResult.row, 4).setValue("");
 
-    logEvent(logsSheet, action, userUID, user.name, keyUID, key.name, "OK", "");
-    return ContentService.createTextOutput("OK: RETURN logged");
+    logsSheet.appendRow([
+      new Date(),
+      "RETURN",
+      userResult.uid,
+      userResult.name,
+      keyResult.uid,
+      keyResult.name,
+      "OK"
+    ]);
+
+    return "OK|RETURN|" + userResult.name + "|" + keyResult.name;
+}
+
+  return "INVALID_ACTION";
+}
+
+function findUser(sheet, uid) {
+  var lastRow = sheet.getLastRow();
+  if (lastRow < 2) {
+    return { found: false };
   }
 
-  return ContentService.createTextOutput("ERROR: Unexpected");
-}
+  var values = sheet.getRange(2, 1, lastRow - 1, 3).getValues();
 
-function normalizeUID(uid) {
-  return String(uid).trim().toUpperCase();
-}
+  for (var i = 0; i < values.length; i++) {
+    var sheetUid = normalizeUid(values[i][0]);
+    var name = (values[i][1] || "").toString().trim();
+    var active = values[i][2] === true || String(values[i][2]).toUpperCase() === "TRUE";
 
-function findUser(sheet, userUID) {
-  var data = sheet.getDataRange().getValues();
-
-  for (var i = 1; i < data.length; i++) {
-    var uid = normalizeUID(data[i][0]);
-    var name = data[i][1];
-    var activeValue = String(data[i][2]).toUpperCase().trim();
-
-    var active = (activeValue === "TRUE" || activeValue === "YES" || activeValue === "1");
-
-    if (uid === userUID) {
+    if (sheetUid === uid) {
       return {
         found: true,
-        row: i + 1,
-        uid: uid,
+        row: i + 2,
+        uid: sheetUid,
         name: name,
         active: active
       };
@@ -95,39 +131,31 @@ function findUser(sheet, userUID) {
   return { found: false };
 }
 
-function findKey(sheet, keyUID) {
-  var data = sheet.getDataRange().getValues();
+function findKey(sheet, uid) {
+  var lastRow = sheet.getLastRow();
+  if (lastRow < 2) {
+    return { found: false };
+  }
 
-  for (var i = 1; i < data.length; i++) {
-    var uid = normalizeUID(data[i][0]);
-    var name = data[i][1];
-    var status = String(data[i][2]).toUpperCase().trim();
-    var holderUID = normalizeUID(data[i][3] || "");
+  var values = sheet.getRange(2, 1, lastRow - 1, 4).getValues();
 
-    if (uid === keyUID) {
+  for (var i = 0; i < values.length; i++) {
+    var sheetUid = normalizeUid(values[i][0]);
+    var name = (values[i][1] || "").toString().trim();
+    var status = (values[i][2] || "").toString().trim().toUpperCase();
+    var holderUid = normalizeUid(values[i][3]);
+
+    if (sheetUid === uid) {
       return {
         found: true,
-        row: i + 1,
-        uid: uid,
+        row: i + 2,
+        uid: sheetUid,
         name: name,
         status: status,
-        holderUID: holderUID
+        holderUid: holderUid
       };
     }
   }
 
   return { found: false };
-}
-
-function logEvent(logsSheet, action, userUID, userName, keyUID, keyName, result, notes) {
-  logsSheet.appendRow([
-    new Date(),
-    action,
-    userUID,
-    userName,
-    keyUID,
-    keyName,
-    result,
-    notes
-  ]);
 }
