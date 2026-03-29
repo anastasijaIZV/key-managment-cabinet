@@ -3,15 +3,20 @@
 #include <Wire.h>
 #include <Adafruit_PN532.h>
 
+// I2C pins for PN532
 #define SDA_PIN 21
 #define SCL_PIN 22
 
+// LED pins
 #define GREEN_LED 23
 #define RED_LED 12
 
-const char* ssid = "Intergalactic wi-fi";
-const char* password = "theansweris42";
-String scriptURL = "https://script.google.com/macros/s/AKfycbxJ4BgzgVrgRWvFc7PEc3DR30w1ZKmYadbgoWtj0ghi8KjdBrXuXU6r1yyRBP6yyog3/exec";
+// WiFi credentials (CHANGE THESE)
+const char* ssid = "--------";
+const char* password = "---------";
+
+// Google Apps Script URL
+String scriptURL = "---------";
 
 Adafruit_PN532 nfc(-1, -1);
 
@@ -21,6 +26,8 @@ String pendingUserUID = "";
 String pendingUserName = "";
 String pendingKeyUID = "";
 String pendingKeyName = "";
+
+// Timestamp for timeout
 unsigned long pendingSince = 0;
 const unsigned long PENDING_TIMEOUT_MS = 10000;
 
@@ -29,6 +36,7 @@ void allOff() {
   digitalWrite(RED_LED, LOW);
 }
 
+// Blink green LED
 void blinkGreen(int count, int onMs = 180, int offMs = 120) {
   for (int i = 0; i < count; i++) {
     allOff();
@@ -39,6 +47,7 @@ void blinkGreen(int count, int onMs = 180, int offMs = 120) {
   }
 }
 
+// Blink red LED
 void blinkRed(int count, int onMs = 180, int offMs = 120) {
   for (int i = 0; i < count; i++) {
     allOff();
@@ -65,6 +74,7 @@ void showRedThree() {
   blinkRed(3);
 }
 
+// Reset current transaction
 void clearPending() {
   pendingAction = "";
   pendingUserUID = "";
@@ -74,6 +84,10 @@ void clearPending() {
   pendingSince = 0;
 }
 
+// -----------------------------
+// UID PROCESSING
+// -----------------------------
+// Converts raw UID bytes into readable HEX string
 String uidToString(uint8_t *uid, uint8_t uidLength) {
   String result = "";
   for (uint8_t i = 0; i < uidLength; i++) {
@@ -84,6 +98,10 @@ String uidToString(uint8_t *uid, uint8_t uidLength) {
   return result;
 }
 
+// -----------------------------
+// HTTP COMMUNICATION
+// -----------------------------
+// Sends GET request to Apps Script
 String httpGet(String url) {
   if (WiFi.status() != WL_CONNECTED) {
     Serial.println("WiFi not connected");
@@ -115,6 +133,7 @@ String httpGet(String url) {
   return payload;
 }
 
+// Ask backend: is this UID a user or a key?
 String classifyUid(String uid) {
   String url = scriptURL + "?mode=classify&uid=" + uid;
   Serial.print("Classify URL: ");
@@ -122,6 +141,7 @@ String classifyUid(String uid) {
   return httpGet(url);
 }
 
+// Tell backend to process TAKE or RETURN
 String processAction(String action, String userUid, String keyUid) {
   String url = scriptURL + "?mode=process&action=" + action + "&useruid=" + userUid + "&keyuid=" + keyUid;
   Serial.print("Process URL: ");
@@ -129,6 +149,10 @@ String processAction(String action, String userUid, String keyUid) {
   return httpGet(url);
 }
 
+// -----------------------------
+// RESPONSE PARSING
+// -----------------------------
+// Splits server response using "|" separator
 String getPart(String data, int index) {
   int start = 0;
   int currentIndex = 0;
@@ -145,9 +169,12 @@ String getPart(String data, int index) {
   return "";
 }
 
+// -----------------------------
+// LOGIC: USER SCANNED
+// -----------------------------
 void handleUserFound(String uid, String name) {
   if (pendingAction == "") {
-    // First scan is user -> TAKE
+    // FIRST SCAN → USER → start TAKE
     pendingAction = "TAKE";
     pendingUserUID = uid;
     pendingUserName = name;
@@ -161,7 +188,7 @@ void handleUserFound(String uid, String name) {
   }
 
   if (pendingAction == "RETURN" && pendingKeyUID != "") {
-    // Second scan completes RETURN
+    // SECOND SCAN → complete RETURN
     Serial.println("Completing RETURN...");
     String result = processAction("RETURN", uid, pendingKeyUID);
 
@@ -194,11 +221,14 @@ void handleUserFound(String uid, String name) {
   clearPending();
 }
 
+// -----------------------------
+// LOGIC: KEY SCANNED
+// -----------------------------
 void handleKeyFound(String uid, String name, String status, String holderUid) {
   if (pendingAction == "") {
-    // First scan is key -> RETURN
-    // Only allow this flow if key is currently OUT
+    // FIRST SCAN → KEY → start RETURN
     if (status != "OUT") {
+        // Key is already in cabinet
       Serial.println("Key already in cabinet, cannot start RETURN");
       showRedOne();
       clearPending();
@@ -218,7 +248,7 @@ void handleKeyFound(String uid, String name, String status, String holderUid) {
   }
 
   if (pendingAction == "TAKE" && pendingUserUID != "") {
-    // Second scan completes TAKE
+    // SECOND SCAN → complete TAKE
     Serial.println("Completing TAKE...");
     String result = processAction("TAKE", pendingUserUID, uid);
 
@@ -245,12 +275,15 @@ void handleKeyFound(String uid, String name, String status, String holderUid) {
     }
     return;
   }
-
+  // Wrong order
   Serial.println("Unexpected key scan");
   showRedOne();
   clearPending();
 }
 
+// -----------------------------
+// SETUP
+// -----------------------------
 void setup() {
   Serial.begin(115200);
   delay(500);
@@ -259,8 +292,10 @@ void setup() {
   pinMode(RED_LED, OUTPUT);
   allOff();
 
+  // Initialize I2C
   Wire.begin(SDA_PIN, SCL_PIN);
 
+  // Connect to WiFi
   WiFi.begin(ssid, password);
   Serial.print("Connecting to WiFi");
 
@@ -272,7 +307,8 @@ void setup() {
   Serial.println();
   Serial.println("WiFi connected");
   Serial.println(WiFi.localIP());
-
+  
+  // Initialize PN532
   nfc.begin();
   uint32_t versiondata = nfc.getFirmwareVersion();
 
@@ -284,7 +320,7 @@ void setup() {
     }
   }
 
-  nfc.SAMConfig();
+  nfc.SAMConfig(); // Enable NFC reader
   clearPending();
 
   Serial.println("PN532 ready");
@@ -292,6 +328,8 @@ void setup() {
 }
 
 void loop() {
+  
+    // Timeout if user doesn't complete second scan
   if (pendingAction != "" && millis() - pendingSince > PENDING_TIMEOUT_MS) {
     Serial.println("Pending action timed out");
     showRedThree();
@@ -300,7 +338,8 @@ void loop() {
 
   uint8_t uid[7];
   uint8_t uidLength;
-
+  
+  // Try to read NFC tag/card
   bool success = nfc.readPassiveTargetID(PN532_MIFARE_ISO14443A, uid, &uidLength, 200);
 
   if (!success) {
@@ -310,7 +349,8 @@ void loop() {
   String uidString = uidToString(uid, uidLength);
   Serial.print("Scanned UID: ");
   Serial.println(uidString);
-
+  
+  // Ask backend what this UID is
   String result = classifyUid(uidString);
 
   if (
@@ -343,7 +383,7 @@ void loop() {
     delay(1200);
     return;
   }
-
+  // Unknown / error
   Serial.println("Unexpected server response");
   Serial.println(result);
   showRedOne();
