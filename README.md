@@ -101,4 +101,119 @@ In many schools, key management is still handled manually, often relying on a lo
 > - IN SLOW PROGRESS ┗( T﹏T )┛
 > - NOT WORKING (ㆆ_ㆆ)
 > - TO BE DECIDED ㄟ( ▔, ▔ )ㄏ
-> - FINISHED (ﾉ◕ヮ◕)ﾉ*:･ﾟ✧ 
+> - FINISHED (ﾉ◕ヮ◕)ﾉ*:･ﾟ✧
+
+---
+
+# Testing
+
+## System workflow
+The system operates using a two-step scanning process that determines whether a key is being taken or returned.
+
+**Key issuing (TAKE):**
+1. User scans their card
+2. System verifies if the user is authorized
+3. User scans the key NFC tag
+4. System logs the action as TAKE
+5. Key status is updated to OUT
+6. Green LED indicates success
+
+**Key return (RETURN):**
+1. User scans the key NFC tag first
+2. System recognizes that the key is currently taken
+3. User scans their card
+4. System logs the action as RETURN
+5. Key status is updated to IN
+6. Green LED indicates success
+
+**Invalid actions:**
+- Unknown UID → denied
+- Inactive user → denied
+- Taking unavailable key (key status OUT) → denied
+- Returning already available key (key status IN) → denied
+
+## Repository structure
+- [UX_testing.ino](https://github.com/anastasijaIZV/key-managment-cabinet/blob/main/UX_testing/UX_testing.ino) → ESP32 firmware (main system logic)
+- [Code.gs](https://github.com/anastasijaIZV/key-managment-cabinet/blob/main/Code.gs) → Google Apps Script backend
+- Folder [other ESP scripts](https://github.com/anastasijaIZV/key-managment-cabinet/tree/main/other%20ESP%20scripts) → ESP firmware from different steps of development (not essential)
+
+## Hardware requirements
+
+To test the system, the following components are required:
+- ESP32 microcontroller
+- PN532 NFC/RFID reader (I2C mode)
+- 2x LEDs (green and red)
+- NFC tags (for keys)
+- NFC cards (for users)
+- Breadboard + jumper wires
+
+## Wiring overview
+
+|Component|ESP32 pin|
+|------|----------|
+|  PN532 SDA  | 21 |
+|  PN532 SCL  | 22 |
+|  PN532 GND  | GND |
+|  PN532 VCC  | 3V3 |
+|  Green LED +  | 23 |
+| Green LED - | GND|
+|  Red LED +  | 12 |
+| Red LED - | GND|
+
+## Google Sheets setup
+
+Create a Google Spreadsheet with the following sheets:
+
+**Users**
+|UID| UserName| Active|
+|------|----------|-----|
+|  C3B71807  | Vārds (Uzvārds) |TRUE |
+
+**Keys**
+|UID|KeyName| Status| HolderUID |
+|------|----------|-----|----|
+|  836D2607  | Key Name |  | |
+
+**Logs**
+| Timestamp | Action | User UID | User name | Key UID | Key name | Result |
+|-----|-----|------|------|-------|------|-----|
+|  |  |  |  |  |  |  |
+
+### Apps Script setup
+1. Open `Extensions` → `Apps Script`
+2. Paste the contents of `Code.gs`
+3. Save the project
+4. Click `Deploy` → `New deployment`
+5. Select `Web app`
+6. Set access to: `Anyone`
+7. Copy the generated URL
+
+## ESP32 setup
+
+In [UX_testing.ino](https://github.com/anastasijaIZV/key-managment-cabinet/blob/main/UX_testing/UX_testing.ino), update:
+
+- WiFi SSID
+- WiFi password
+- Apps Script URL
+
+Upload the code using Arduino IDE.
+
+## Running the system
+1. Power the ESP32
+2. Open Serial Monitor (115200 baud)
+3. Wait for WiFi connection
+4. Scan a card or tag
+5. Observe:
+   * Serial output
+   * LED feedback
+   * Google Sheets logs
+
+## LED feedback
+- Green LED (one blink) → valid scan
+- Green LED (3 blinks) → successful action
+- Red LED (one blink) → error / denied action
+- Red LED (3 blinks) → session time-out
+
+
+
+
