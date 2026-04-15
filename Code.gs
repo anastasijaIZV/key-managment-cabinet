@@ -22,7 +22,11 @@ function doGet(e) {
 }
 
 function normalizeUid(value) {
-  return (value || "").toString().trim().toUpperCase().replace(/\s+/g, "");
+  return (value || "")
+    .toString()
+    .trim()
+    .toUpperCase()
+    .replace(/[^0-9A-F]/g, "");
 }
 
 function classifyUid(usersSheet, keysSheet, uid) {
@@ -78,7 +82,7 @@ function processAction(usersSheet, keysSheet, logsSheet, action, userUid, keyUid
     ]);
 
     return "OK|TAKE|" + userResult.name + "|" + keyResult.name;
-}
+  }
 
   if (action === "RETURN") {
     if (String(keyResult.status).toUpperCase() !== "OUT") {
@@ -99,7 +103,7 @@ function processAction(usersSheet, keysSheet, logsSheet, action, userUid, keyUid
     ]);
 
     return "OK|RETURN|" + userResult.name + "|" + keyResult.name;
-}
+  }
 
   return "INVALID_ACTION";
 }
