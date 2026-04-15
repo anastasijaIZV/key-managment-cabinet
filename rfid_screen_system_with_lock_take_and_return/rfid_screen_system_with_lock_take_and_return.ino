@@ -37,13 +37,13 @@ HardwareSerial RFID(2);   // UART2
 // -----------------------------
 // WiFi credentials
 // -----------------------------
-const char* ssid = "Intergalactic wi-fi";
-const char* password = "theansweris42";
+const char* ssid = "-------";
+const char* password = "-------";
 
 // -----------------------------
 // Google Apps Script URL
 // -----------------------------
-String scriptURL = "https://script.google.com/macros/s/AKfycbz41gmbVFUSphWrWmNBEIWWz_UMrxw2a0EXBWxRLJdLolRXIhlEvasvqPbezLdTb_Au/exec";
+String scriptURL = "-------";
 
 // -----------------------------
 // Pending transaction state
