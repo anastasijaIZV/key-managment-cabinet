@@ -133,9 +133,9 @@ The system operates using a two-step scanning process that determines whether a 
 - Returning already available key (key status IN) → denied
 
 ## Repository structure
-- [UX_testing.ino](https://github.com/anastasijaIZV/key-managment-cabinet/blob/main/UX_testing/UX_testing.ino) → ESP32 firmware (main system logic)
+- [rfid_screen_system_with_lock_take_and_return](https://github.com/anastasijaIZV/key-managment-cabinet/tree/main/rfid_screen_system_with_lock_take_and_return) → ESP32 firmware (main system logic)
 - [Code.gs](https://github.com/anastasijaIZV/key-managment-cabinet/blob/main/Code.gs) → Google Apps Script backend
-- Folder [other ESP scripts](https://github.com/anastasijaIZV/key-managment-cabinet/tree/main/other%20ESP%20scripts) → ESP firmware from different steps of development (not essential)
+- Folder [other ESP NFC scripts](https://github.com/anastasijaIZV/key-managment-cabinet/tree/main/other%20ESP%20NFC%20scripts) and [other ESP scripts](https://github.com/anastasijaIZV/key-managment-cabinet/tree/main/other%20ESP%20RFID%20scripts)→ ESP firmware from different steps of development (not essential)
 
 ## Hardware requirements
 
@@ -190,7 +190,7 @@ Create a Google Spreadsheet with the following sheets:
 
 ## ESP32 setup
 
-In [UX_testing.ino](https://github.com/anastasijaIZV/key-managment-cabinet/blob/main/UX_testing/UX_testing.ino), update:
+In [rfid_screen_system_with_lock_take_and_return](https://github.com/anastasijaIZV/key-managment-cabinet/tree/main/rfid_screen_system_with_lock_take_and_return), update:
 
 - WiFi SSID
 - WiFi password
