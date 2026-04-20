@@ -29,19 +29,18 @@ In many schools, key management is still handled manually, often relying on a lo
 
 ### Hardware technologies
 - ESP32 microcontroller
-- PN532 NFC/RFID reader
+- RDM6300 125KHz RFID reader
 - School ID Card
-- Electronic cabinet lock with feedback signal
+- Electronic cabinet lock with feedback signal, 12V
 - MOSFET driver module for lock control
-- NFC tags for keys
+- RFID tags for keys
 - Status LEDs (green + red)
-- 3D printer (model)
+- 0.96 Inch OLED Display
 
 ### Software technologies
 - Arduino IDE
 - Google Apps Script
 - HTTP communication over Wi-Fi
-- Tinkercad
 
 --- 
 
@@ -58,9 +57,9 @@ In many schools, key management is still handled manually, often relying on a lo
 
 - [x] **Week 5** &rarr;  visual feedback for system state
 
-- [ ] **Week 6** &rarr; cabinet can lock/unlock
+- [x] **Week 6** &rarr; cabinet can lock/unlock
 
-- [ ] **Week 7** &rarr;  combined system parts (taps card - cabinet opens - relocks automanically) 
+- [x] **Week 7** &rarr;  combined system parts (taps card - cabinet opens - relocks automanically) 
 
 - [ ] **Week 8** &rarr;  assembled cabinet prototype
 
@@ -80,16 +79,16 @@ In many schools, key management is still handled manually, often relying on a lo
 | 4   | S  | Wire PN532 and ESP32 and verify connection                      | (ﾉ◕ヮ◕)ﾉ*:･ﾟ✧     |
 | 4   | H  | Run PN532 examples, read UID from school card + test tag           | (ﾉ◕ヮ◕)ﾉ*:･ﾟ✧     |
 | 5   | S  | Wire red/green LEDs to ESP32 GPIOs                            | (ﾉ◕ヮ◕)ﾉ*:･ﾟ✧     |
-| 5   | H  | Create LED states  | (_　_)。zＺ     |
-| 6   | S  | Wire lock to 12V PSU via IRF520 + flyback diode                   | (_　_)。zＺ     |
-| 6   | H  | Test lock control via GPIO        | (_　_)。zＺ     |
+| 5   | H  | Create LED states  | (ﾉ◕ヮ◕)ﾉ*:･ﾟ✧     |
+| 6   | S  | Wire lock to 12V PSU + flyback diode                   | (ﾉ◕ヮ◕)ﾉ*:･ﾟ✧     |
+| 6   | H  | Test lock control via GPIO        | (ﾉ◕ヮ◕)ﾉ*:･ﾟ✧     |
 | 7   | S  | Implement access flow  (card - unlock - delay - relock)                        | (ﾉ◕ヮ◕)ﾉ*:･ﾟ✧     |
-| 7   | H  | Combine NFC + LEDs + lock into one sketch                                | (_　_)。zＺ     |
+| 7   | H  | Combine NFC + LEDs + lock into one sketch                                | (ﾉ◕ヮ◕)ﾉ*:･ﾟ✧     |
 | 8   | S  | Mount electronics inside printed cabinet                            | (_　_)。zＺ     |
-| 8   | H  | Add door/lock feedback signal and read it in code               | (_　_)。zＺ     |
-| 9   | S    | Define event structure      | (_　_)。zＺ     |
+| 8   | H  | Add door/lock feedback signal and read it in code               | (ﾉ◕ヮ◕)ﾉ*:･ﾟ✧     |
+| 9   | S   | Define event structure      | ✍(◔◡◔)     |
 | 9  | H  | Create Google Sheets + Apps Script endpoint            | (ﾉ◕ヮ◕)ﾉ*:･ﾟ✧     |
-| 9  | H  | Send test logs from ESP32            |(_　_)。zＺ     |
+| 9  | H  | Send test logs from ESP32            |(ﾉ◕ヮ◕)ﾉ*:･ﾟ✧     |
 | 10  | S  | Full system testing            |(_　_)。zＺ     |
 | 10  | S  | Finish documentation             | (_　_)。zＺ     |
 
@@ -133,21 +132,21 @@ The system operates using a two-step scanning process that determines whether a 
 - Returning already available key (key status IN) → denied
 
 ## Repository structure
-- [UX_testing.ino](https://github.com/anastasijaIZV/key-managment-cabinet/blob/main/UX_testing/UX_testing.ino) → ESP32 firmware (main system logic)
+- [rfid_screen_system_with_lock_take_and_return](https://github.com/anastasijaIZV/key-managment-cabinet/tree/main/rfid_screen_system_with_lock_take_and_return) → ESP32 firmware (main system logic)
 - [Code.gs](https://github.com/anastasijaIZV/key-managment-cabinet/blob/main/Code.gs) → Google Apps Script backend
-- Folder [other ESP scripts](https://github.com/anastasijaIZV/key-managment-cabinet/tree/main/other%20ESP%20scripts) → ESP firmware from different steps of development (not essential)
+- Folder [other ESP NFC scripts](https://github.com/anastasijaIZV/key-managment-cabinet/tree/main/other%20ESP%20NFC%20scripts) and [other ESP scripts](https://github.com/anastasijaIZV/key-managment-cabinet/tree/main/other%20ESP%20RFID%20scripts)→ ESP firmware from different steps of development (not essential)
 
 ## Hardware requirements
 
 To test the system, the following components are required:
 - ESP32 microcontroller
-- PN532 NFC/RFID reader (I2C mode)
+- RFID reader
 - 2x LEDs (green and red)
-- NFC tags (for keys)
-- NFC cards (for users)
+- RFID tags (for keys)
+- RFID school card (for users)
 - Breadboard + jumper wires
 
-## Wiring overview
+## Wiring overview - :exclamation: OUTDATED - SOON WILL UPDATE :exclamation:
 
 |Component|ESP32 pin|
 |------|----------|
@@ -159,6 +158,8 @@ To test the system, the following components are required:
 | Green LED - | GND|
 |  Red LED +  | 12 |
 | Red LED - | GND|
+
+Here will be a wiring diagram of the full system.
 
 ## Google Sheets setup
 
@@ -190,7 +191,7 @@ Create a Google Spreadsheet with the following sheets:
 
 ## ESP32 setup
 
-In [UX_testing.ino](https://github.com/anastasijaIZV/key-managment-cabinet/blob/main/UX_testing/UX_testing.ino), update:
+In [rfid_screen_system_with_lock_take_and_return](https://github.com/anastasijaIZV/key-managment-cabinet/tree/main/rfid_screen_system_with_lock_take_and_return), update:
 
 - WiFi SSID
 - WiFi password
@@ -209,8 +210,8 @@ Upload the code using Arduino IDE.
    * Google Sheets logs
 
 ## LED feedback
-- Green LED (one blink) → valid scan
-- Green LED (3 blinks) → successful action
+- Green LED (one blink) → valid singular scan (KEY/CARD)
+- Green LED (3 blinks) → successful action (TAKE/RETURN)
 - Red LED (one blink) → error / denied action
 - Red LED (3 blinks) → session time-out
 

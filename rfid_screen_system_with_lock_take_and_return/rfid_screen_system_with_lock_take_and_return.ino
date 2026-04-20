@@ -37,8 +37,8 @@ HardwareSerial RFID(2);   // UART2
 // -----------------------------
 // WiFi credentials
 // -----------------------------
-const char* ssid = "Intergalactic wi-fi";
-const char* password = "theansweris42";
+const char* ssid = "-------";
+const char* password = "-------";
 
 // -----------------------------
 // Google Apps Script URL
