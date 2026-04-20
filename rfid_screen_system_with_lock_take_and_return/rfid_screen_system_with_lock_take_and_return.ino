@@ -30,7 +30,7 @@ HardwareSerial RFID(2);   // UART2
 // -----------------------------
 // RELAY / LOCK PINS
 // -----------------------------
-#define RELAY_PIN 26
+#define RELAY_PIN 5
 #define RELAY_ON  HIGH
 #define RELAY_OFF LOW
 
@@ -43,7 +43,7 @@ const char* password = "theansweris42";
 // -----------------------------
 // Google Apps Script URL
 // -----------------------------
-String scriptURL = "https://script.google.com/macros/s/AKfycbz41gmbVFUSphWrWmNBEIWWz_UMrxw2a0EXBWxRLJdLolRXIhlEvasvqPbezLdTb_Au/exec";
+String scriptURL = "https://script.google.com/macros/s/AKfycbwCgVd45LDD3Q-N-mTt2uKb9sZAhnYzhUHOVXR2VxBzjTWNFVHqA5EzaffC0s3cdlsr/exec";
 
 // -----------------------------
 // Pending transaction state
