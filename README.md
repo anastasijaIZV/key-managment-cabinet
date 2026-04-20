@@ -146,20 +146,67 @@ To test the system, the following components are required:
 - RFID school card (for users)
 - Breadboard + jumper wires
 
-## Wiring overview - :exclamation: OUTDATED - SOON WILL UPDATE :exclamation:
+## Wiring overview
 
-|Component|ESP32 pin|
-|------|----------|
-|  PN532 SDA  | 21 |
-|  PN532 SCL  | 22 |
-|  PN532 GND  | GND |
-|  PN532 VCC  | 3V3 |
-|  Green LED +  | 23 |
-| Green LED - | GND|
-|  Red LED +  | 12 |
-| Red LED - | GND|
+                       ┌──────────────────────────────┐
+                       │          Wi-Fi / Web         │
+                       │   Google Apps Script + Sheet │
+                       └──────────────┬───────────────┘
+                                      │
+                                 Wi-Fi│
+                                      │
+                         ┌────────────▼────────────┐
+                         │         ESP32           │
+                         │   Main controller       │
+                         │                         │
+                         │ GPIO18  -> OLED SDA     │
+                         │ GPIO19  -> OLED SCL     │
+                         │ GPIO25  -> RDM6300 TX   │
+                         │ GPIO23  -> Green LED    │
+                         │ GPIO32  -> Red LED      │
+                         │ GPIO5   -> Relay SIG    │
+                         │ power   -> laptop USB port │
+                         │ GND     -> common GND   │
+                         └─────┬─────────┬─────────┘
+                               │         │
+                               │         │
+                ┌──────────────┘         └──────────────┐
+                │                                       │
+        ┌───────▼────────┐                     ┌────────▼────────┐
+        │   OLED Screen  │                     │  RDM6300 RFID   │
+        │   I2C display  │                     │    reader       │
+        │                │                     │                 │
+        │ SDA <- GPIO18  │                     │ TX  -> GPIO25   │
+        │ SCL <- GPIO19  │                     │ VCC -> 5V       │
+        │ VCC <- 3.3V    │                     │ GND -> GND      │
+        │ GND <- GND     │                     └─────────────────┘
+        └────────────────┘
 
-Here will be a wiring diagram of the full system.
+                         ┌──────────────────────────┐
+                         │   Relay / lock driver    │
+                         │  (controlled by GPIO5)   │
+                         │                          │
+                         │ SIG    <- GPIO5          │
+                         │ +      <- module power*  │
+                         │ -      <- common GND     |
+                         │ NO     <- lock +         |
+                         | COM    <- +12V PSU
+                         └───────────┬──────────────┘
+                                     │ 
+                                     │
+                     ┌───────────────▼────────────────┐
+                     │         12V power supply       │
+                     │                                │
+                     │ +12V  --------------------┐    │
+                     │ -12V   -----------------┐ │    │
+                     └─────────────────────────│─│────┘
+                                               │ │
+                                  ┌────────────▼─▼────────────┐
+                                  │      Electric lock        │
+                                  │                           │
+                                  │ red wire -> Relay NO      │
+                                  │ black wire -> -12V        |
+                                  └───────────────────────────┘
 
 ## Google Sheets setup
 
