@@ -10,6 +10,12 @@ Each key is attached to an NFC tag with a unique identifier, and users authentic
 
 ---
 
+## Testing
+
+Done by Rihards Krusts. Link [here](https://docs.google.com/document/d/12wwol8JLyGgOPpA6l1tL-KkmvZNudMT9YNyHYoC4w4g/edit?tab=t.0).
+
+---
+
 ## Problem analysis
 ### Target audience/users:
 - Primary users of the system are school staff, such as teachers, administrators, and technical personnel, as well as students who are authorized to access specific rooms. The system is especially useful in environments where many keys are shared among different users throughout the day.
